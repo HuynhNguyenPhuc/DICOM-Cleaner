@@ -11,6 +11,10 @@ from pydicom.uid import ExplicitVRLittleEndian
 LOWER_YELLOW = np.array([20, 40, 40])
 UPPER_YELLOW = np.array([45, 255, 255])
 
+# Define color ranges for green
+LOWER_GREEN = np.array([40, 40, 40])
+UPPER_GREEN = np.array([85, 255, 255])
+
 def process_dicom_image(
     input_path: str, 
     dicom_output_path: str, 
@@ -32,14 +36,21 @@ def process_dicom_image(
     pixel_array = dicom_dataset.pixel_array
     image_bgr = cv2.cvtColor(pixel_array, cv2.COLOR_RGB2BGR)
 
-    # Create a mask for yellow regions
+    # Convert to HSV color space
     hsv_image = cv2.cvtColor(image_bgr, cv2.COLOR_BGR2HSV)
     
+    # Create a mask for yellow regions
     yellow_mask = cv2.inRange(hsv_image, LOWER_YELLOW, UPPER_YELLOW)
 
-    # Refine the mask using a two-step morphological process
+    # Create a mask for green regions
+    green_mask = cv2.inRange(hsv_image, LOWER_GREEN, UPPER_GREEN)
+
+    # Combine the two masks
+    combined_mask = cv2.bitwise_or(yellow_mask, green_mask)
+
+    # Refine the combined mask using a two-step morphological process
     closing_kernel = np.ones((3, 3), np.uint8)
-    mask_after_closing = cv2.morphologyEx(yellow_mask, cv2.MORPH_CLOSE, closing_kernel, iterations=2)
+    mask_after_closing = cv2.morphologyEx(combined_mask, cv2.MORPH_CLOSE, closing_kernel, iterations=2)
     
     dilation_kernel = np.ones((3, 3), np.uint8)
     final_mask = cv2.dilate(mask_after_closing, dilation_kernel, iterations=1)

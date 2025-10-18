@@ -1,6 +1,6 @@
 # DICOM Cleaner
 
-A Python script to automatically detect and remove yellow annotations (such as text, markers, and measurement lines) from medical DICOM images, particularly ultrasound scans. The tool saves the cleaned image as both a new DICOM file and a standard PNG image.
+A Python script to automatically detect and remove yellow and green annotations (such as text, markers, and measurement lines) from medical DICOM images, particularly ultrasound scans. The tool saves the cleaned image as both a new DICOM file and a standard PNG image.
 
 ## Setup & Installation
 
