@@ -1,63 +1,83 @@
 # DICOM Cleaner
 
-A Python script to automatically detect and remove yellow and green annotations (such as text, markers, and measurement lines) from medical DICOM images, particularly ultrasound scans. The tool saves the cleaned image as both a new DICOM file and a standard PNG image.
+A Python tool to automatically detect and remove yellow and green annotations (such as text, markers, and measurement lines) from medical DICOM images, particularly ultrasound scans. For each processed file it produces a cleaned DICOM file that preserves all original metadata alongside a PNG preview image.
+
+## Project Structure
+
+```
+dicom-processor/
+├── app.py               # CLI entry point – run this file
+├── requirements.txt     # Python dependencies
+├── assets/              # Sample / input DICOM files
+├── results/             # Default output directory
+├── docs/
+│   └── ALGORITHM.md     # Glossary and algorithm description
+└── src/
+   ├── constants.py     # HSV colour ranges, morphological & inpainting params
+   ├── io.py            # DICOM / image reading and writing helpers
+   └── processor.py     # Core image-processing pipeline
+```
+
+### Module responsibilities
+
+| Module | Responsibility |
+|---|---|
+| `app.py` | Gradio web UI, per-file orchestration, human-in-the-loop workflow |
+| `src/constants.py` | All hard-coded configuration values and colour thresholds |
+| `src/io.py` | Reading DICOM files, collecting input paths, saving DICOM / PNG output |
+| `src/processor.py` | HSV masking, morphological refinement, TELEA inpainting |
 
 ## Setup & Installation
 
-1.  **Prerequisites**: Ensure you have Python 3.7 or newer installed.
+1. **Prerequisites**: Python 3.10 or newer.
 
-2.  **Clone the repository or download the script**:
-    ```bash
-    git clone <your-repo-url>
-    cd <your-repo-directory>
-    ```
+2. **Clone the repository**:
+   ```bash
+   git clone <your-repo-url>
+   cd <your-repo-name>
+   ```
 
-3.  **Create a virtual environment** (recommended):
-    ```bash
-    python -m venv venv
-    source venv/bin/activate
-    ```
+3. **Create a virtual environment** (recommended):
+   ```bash
+   python -m venv .venv
+   # Windows
+   .venv\Scripts\activate
+   # macOS / Linux
+   source .venv/bin/activate
+   ```
 
-4.  **Install the required packages** using the provided `requirements.txt` file:
-    ```bash
-    pip install -r requirements.txt
-    ```
+4. **Install dependencies**:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-## Usage
-
-The script is run from the command line and requires an input source (either a single file or a directory) and an output directory.
-
-### Command-Line Arguments
-
--   `--input_path <path>`: Path to a single DICOM file.
--   `--input_dir <path>`: Path to a directory containing DICOM files.
--   `--output_dir <path>`: Path to the directory where cleaned files will be saved. The script will create this directory if it doesn't exist.
--   `--visualize`: (Optional) Add this flag to display a Matplotlib window showing the before-and-after results for each image.
-
-> **Note**: You must provide either `--input_path` or `--input_dir`, but not both.
-
-### Examples
-
-#### 1. Processing a Single File
-
-This command will process `ultrasound.dcm` and save `ultrasound.dcm` and `ultrasound.png` into the `cleaned_images` directory.
+## Running the Application
 
 ```bash
-python main.py --input_path data/ultrasound.dcm --output_dir cleaned_images
+python app.py
 ```
 
-#### 2. Processing a Single File with Visualization
+Then open **http://127.0.0.1:7860** in your browser.
 
-This will do the same as above but also open a plot window showing the result.
+Note:
+- Section divider comments and visual separators were removed from the source
+   code to improve readability.
+- Project docstrings were standardised to use the `Args:` / `Returns:` style.
 
-```bash
-python main.py --input_path data/ultrasound.dcm --output_dir cleaned_images --visualize
-```
+### Single File workflow (human-in-the-loop)
 
-#### 3. Processing an Entire Directory
+1. **Upload** a `.dcm` file in the *Single File* tab.
+2. Click **👁️ Preview Mask** — the annotation mask is shown instantly (no inpainting). Check whether yellow/green regions are fully captured.
+3. If needed, expand **⚙️ Threshold Settings** and adjust the hue sliders, then preview again.
+4. Click **✨ Clean Image** — the full pipeline runs and the before/after comparison appears.
+5. Download the cleaned **DICOM** and/or **PNG** files.
 
-This command will find all files in the `raw_dicom_scans` directory, process each one, and save the corresponding cleaned files into the `processed_scans` directory.
+### Batch processing
 
-```bash
-python main.py --input_dir raw_dicom_scans --output_dir processed_scans
-```
+1. Switch to the *Batch* tab.
+2. Upload multiple `.dcm` files.
+3. Click **⚡ Process All** — each file is processed with default thresholds.
+4. Review the results table (filename / status / annotation pixel count).
+5. Download individual cleaned files from the list that appears.
+
+> **Tip:** Use the *Single File* tab to verify the default thresholds work for your dataset before running a large batch.
