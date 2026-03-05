@@ -2,3 +2,4 @@ pydicom
 opencv-python
 numpy
 matplotlib
+gradio
