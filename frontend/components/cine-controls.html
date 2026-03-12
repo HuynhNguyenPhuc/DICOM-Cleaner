@@ -1,0 +1,12 @@
+<div class="cine-bar" id="cine-container" style="display:none; opacity:0.5; pointer-events:none;">
+  <button class="tool-btn" id="btn-cine-play" title="Play / Pause (Space)">▶ Play</button>
+  <button class="tool-btn" id="btn-cine-prev" title="Previous Frame (Arrow Left)">⏮</button>
+  <button class="tool-btn" id="btn-cine-next" title="Next Frame (Arrow Right)">⏭</button>
+  <input type="range" id="cine-timeline" class="cine-slider" min="0" max="100" value="0" />
+  <span id="cine-frame-display" style="font-family:var(--font-mono); font-size:12px; width:60px; text-align:right;">1 / 1</span>
+  
+  <div style="display:flex; align-items:center; gap:0.25rem;">
+    <label style="font-size:10px; text-transform:uppercase; font-weight:bold; color:var(--text-muted);">FPS</label>
+    <input type="number" id="cine-fps" value="30" min="1" max="60" style="width:40px; background:transparent; border:1px solid var(--bg-border); color:var(--text-main); font-family:var(--font-mono); text-align:center; font-size:12px;" />
+  </div>
+</div>

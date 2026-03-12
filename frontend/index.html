@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ultrasound Annotation Cleaner</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <script>
+    window.CONFIG = {
+      FEATURES: {
+        render_worker: typeof Worker !== 'undefined',
+        advanced_measurements: true,
+        session_restore: true
+      }
+    };
+  </script>
+</head>
+<body>
+  <div class="pacs-app" id="app-root">
+    <div aria-live="polite" class="sr-only" id="aria-status"></div>
+
+    <!-- Header 48px -->
+    <header id="app-header" class="pacs-header"></header>
+
+    <!-- Main Grid: sidebar | viewer+toolbar | drawer -->
+    <div class="pacs-grid">
+      <aside id="app-sidebar" class="pacs-sidebar" aria-label="Controls"></aside>
+
+      <main class="pacs-main">
+        <nav id="app-toolbar" class="pacs-toolbar" aria-label="Viewer Tools"></nav>
+        <div class="pacs-viewport-wrapper">
+          <div id="app-viewer" class="pacs-viewport" aria-label="Image Viewport"></div>
+          <aside id="app-drawer" class="pacs-drawer" aria-label="Measurements & Metadata">
+            <div id="app-measurement-panel"></div>
+            <div id="app-metadata-drawer"></div>
+          </aside>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Cine controls (hidden by default) -->
+  <div id="app-cine-controls" style="display:none;"></div>
+  <!-- Export panel (rendered inside sidebar) -->
+  <div id="app-export-panel" style="display:none;"></div>
+  <!-- Global Modal -->
+  <div id="app-dialog-modal"></div>
+
+  <script type="module" src="/main.js"></script>
+</body>
+</html>

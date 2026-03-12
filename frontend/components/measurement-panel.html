@@ -1,0 +1,20 @@
+<!-- Measurements Section -->
+<details class="collapse-block drawer-section" open>
+  <summary class="drawer-title">
+    Measurements
+    <button id="btn-toggle-measurements" class="btn-ghost" title="Toggle visibility" style="font-size:0.6875rem;">👁</button>
+  </summary>
+  <div id="measurements-list" style="display:flex; flex-direction:column; gap:0.625rem; min-height:28px; padding-top:0.875rem; margin:0 1.25rem 1.25rem 1.25rem;" role="list" aria-label="Active Measurements">
+    <div id="measurements-empty" style="color:var(--text-dim); font-size:0.6875rem; font-style:italic;">No active measurements.</div>
+  </div>
+</details>
+
+<div class="drawer-section">
+  <div class="flex-row gap-sm">
+    <button id="btn-undo-measurement" class="btn btn-neutral" style="flex:1; font-size:0.6875rem; padding:0.375rem;">↺ Undo</button>
+    <button id="btn-export-measurements" class="btn btn-neutral" style="flex:1; font-size:0.6875rem; padding:0.375rem;">💾 Export</button>
+  </div>
+  <button id="btn-clear-measurements" class="btn btn-danger w-full mt-sm" style="font-size:0.6875rem; padding:0.375rem;" title="🗑 Clear All Annotations (Cannot be undone)">
+    🗑 Clear All
+  </button>
+</div>

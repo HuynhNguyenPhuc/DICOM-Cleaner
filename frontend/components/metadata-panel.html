@@ -1,0 +1,24 @@
+<!-- Metadata Drawer Section -->
+<div class="drawer-section">
+  <div class="drawer-title">
+    Patient / Metadata
+    <button id="btn-close-metadata" class="btn-ghost" title="Collapse" style="font-size:0.75rem;">✕</button>
+  </div>
+
+  <div class="sidebar-label" style="margin-top:0.25rem;">DICOM Headers</div>
+  <table class="meta-table" id="dicom-meta-table">
+    <tr><td class="meta-key">PatientName</td><td class="meta-val" id="meta-patient-name">—</td></tr>
+    <tr><td class="meta-key">PatientID</td><td class="meta-val" id="meta-patient-id">—</td></tr>
+    <tr><td class="meta-key">StudyDate</td><td class="meta-val" id="meta-study-date">—</td></tr>
+    <tr><td class="meta-key">Modality</td><td class="meta-val" id="meta-modality">—</td></tr>
+    <tr><td class="meta-key">PixelSpacing</td><td class="meta-val" id="meta-pixel-spacing">—</td></tr>
+    <tr><td class="meta-key">Manufacturer</td><td class="meta-val" id="meta-manufacturer">—</td></tr>
+  </table>
+</div>
+
+<div class="drawer-section">
+  <div class="sidebar-label">Operation Log</div>
+  <div id="operation-log" style="font-size:0.6875rem; color:var(--text-dim); font-family:var(--font-mono); max-height:120px; overflow-y:auto;">
+    <div>Ready.</div>
+  </div>
+</div>

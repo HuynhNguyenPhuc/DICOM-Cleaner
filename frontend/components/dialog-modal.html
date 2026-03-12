@@ -1,0 +1,31 @@
+<!-- dialog-modal.html -->
+<div id="global-dialog-overlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:9999; align-items:center; justify-content:center; padding:1rem; backdrop-filter:blur(4px);">
+    <div id="global-dialog-box" style="background:var(--bg-surface); border:1px solid var(--bg-border); border-radius:8px; width:100%; max-width:400px; overflow:hidden; box-shadow:0 20px 25px -5px rgba(0,0,0,0.5), 0 10px 10px -5px rgba(0,0,0,0.2); animation: dialogScaleIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);">
+        <div style="padding:1.5rem; border-bottom:1px solid var(--bg-border);">
+            <h3 id="dialog-title" style="margin:0; font-size:1.125rem; font-weight:600; color:var(--text-main); display:flex; align-items:center; gap:0.5rem;">
+                <!-- Icon injected via JS -->
+                <span id="dialog-title-text">Confirm Action</span>
+            </h3>
+            <p id="dialog-message" style="margin:1rem 0 0 0; color:var(--text-muted); font-size:0.875rem; line-height:1.5;">
+                Are you sure you want to proceed?
+            </p>
+        </div>
+        <div style="padding:1rem 1.5rem; background:var(--bg-panel); display:flex; justify-content:flex-end; gap:0.75rem;">
+            <button id="btn-dialog-cancel" class="btn btn-secondary" style="margin:0;">Cancel</button>
+            <button id="btn-dialog-confirm" class="btn btn-primary" style="margin:0;">Confirm</button>
+        </div>
+    </div>
+</div>
+
+<style>
+@keyframes dialogScaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+</style>

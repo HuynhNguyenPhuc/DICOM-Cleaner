@@ -1,0 +1,70 @@
+<aside class="pacs-sidebar">
+  <!-- Upload -->
+  <div class="sidebar-section">
+    <div class="sidebar-label">Open DICOM Scan</div>
+    <div class="upload-container">
+      <label class="upload-zone" for="dicom-upload" id="upload-zone">
+        <div class="upload-icon">📂</div>
+        <div class="upload-title" id="file-name-display">Drop or Click to Upload</div>
+        <div class="upload-sub">Accepts .dcm, .png, .jpg</div>
+        <input type="file" id="dicom-upload" accept=".dcm,.png,.jpg,.jpeg" style="display:none;" />
+      </label>
+    </div>
+  </div>
+
+  <!-- Detection -->
+  <details class="collapse-block" open>
+    <summary class="sidebar-label">Detection Sensitivity</summary>
+    <input type="range" id="sensitivity-slider" class="control-range" min="1" max="5" value="3" step="1" />
+    <div class="range-labels">
+      <span>Conservative</span>
+      <span>Balanced</span>
+      <span>Aggressive</span>
+    </div>
+  </details>
+
+  <!-- Quality -->
+  <details class="collapse-block" open>
+    <summary class="sidebar-label">Reconstruction Quality</summary>
+    <select id="quality-select" class="control-select">
+      <option value="Fast">Fast</option>
+      <option value="Balanced" selected>Balanced (Clinical Review)</option>
+      <option value="Precise">Precise (Archival)</option>
+    </select>
+  </details>
+
+  <!-- Action Buttons -->
+  <div class="sidebar-section">
+    <div class="flex-row gap-sm">
+      <button id="btn-preview" class="btn btn-neutral" style="flex:1;" disabled>🔍 Preview</button>
+      <button id="btn-clean" class="btn btn-primary" style="flex:1.4;" disabled>✨ Remove & Save</button>
+    </div>
+    <div id="status-panel" class="status-bar" style="display:none;"></div>
+
+    <!-- Export Flow -->
+    <div id="export-actions" style="display:none; margin-top:0.625rem;">
+      <div class="export-card">
+        <div class="export-card-title">Confirm Clinical Export</div>
+        <div class="export-card-desc">Original file remains unmodified. Cleaned output will be exported separately.</div>
+        <label class="export-checkbox">
+          <input type="checkbox" id="chk-verify" />
+          I have verified annotations against the original scan.
+        </label>
+        <div class="flex-row gap-sm">
+          <button id="btn-cancel-clean" class="btn btn-neutral" style="flex:1;">Cancel</button>
+          <button id="btn-commit-clean" class="btn btn-primary" style="flex:1;" disabled>Confirm & Download</button>
+        </div>
+      </div>
+      <div id="download-actions" class="flex-row gap-sm mt-sm" style="display:none;">
+        <button id="btn-download-png" class="btn btn-neutral" style="flex:1;">⬇ PNG</button>
+        <button id="btn-download-dcm" class="btn btn-neutral" style="flex:1;">⬇ DICOM</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Disclaimer (pinned to bottom) -->
+  <div class="disclaimer">
+    <strong><span style="color:var(--col-warning); font-size:16px;">⚠️</span> Medical Disclaimer</strong>
+    This tool is intended for archival, research, and second-opinion review only. Results must be validated against the original DICOM before any clinical use.
+  </div>
+</aside>

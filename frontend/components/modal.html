@@ -1,0 +1,121 @@
+<!-- frontend/components/modal.html -->
+<div id="global-modal-overlay" class="modal-overlay" style="display: none;" role="presentation">
+    <div id="global-modal" class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal-header">
+            <h3 id="modal-title" class="modal-title-text">Confirm Action</h3>
+            <button id="modal-close" class="modal-close-btn" aria-label="Close dialog">✕</button>
+        </div>
+        <div class="modal-body" id="modal-body">
+            Are you sure you want to proceed?
+        </div>
+        <div class="modal-footer">
+            <button id="modal-btn-cancel" class="btn btn-secondary">Cancel</button>
+            <button id="modal-btn-confirm" class="btn btn-primary">Confirm</button>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Base modal styles mapped for Phase 5 max-ping responsiveness */
+body.modal-open {
+    overflow: hidden; /* Prevent background scroll */
+}
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    backdrop-filter: blur(4px);
+    opacity: 0;
+    transition: opacity 0.2s ease-out;
+}
+
+.modal-overlay[style*="display: flex"] {
+    animation: fadeInOverlay 0.2s forwards;
+}
+
+.modal-dialog {
+    background: var(--bg-surface, #1e1e1e);
+    border: 1px solid var(--bg-border, #333);
+    border-radius: 8px;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+    display: flex;
+    flex-direction: column;
+    transform: scale(0.95) translateY(10px);
+    animation: dialogScaleIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.modal-header {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--bg-border, #333);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-title-text {
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--text-main, #fff);
+}
+
+.modal-close-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted, #9ca3af);
+    font-size: 1.25rem;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0.25rem;
+    border-radius: 4px;
+    transition: background 0.15s, color 0.15s;
+}
+
+.modal-close-btn:hover, .modal-close-btn:focus {
+    color: var(--text-main, #fff);
+    background: rgba(255, 255, 255, 0.1);
+    outline: none;
+}
+
+.modal-body {
+    padding: 1.5rem;
+    color: var(--text-muted, #d1d5db);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+}
+
+.modal-footer {
+    padding: 1rem 1.5rem;
+    background: var(--bg-panel, #111);
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+}
+
+/* Animations */
+@keyframes fadeInOverlay {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes dialogScaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+</style>
