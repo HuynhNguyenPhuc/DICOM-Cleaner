@@ -1,83 +1,83 @@
-# DICOM Cleaner
+# DICOM Cleaner - Clinical Interface
 
-A Python tool to automatically detect and remove yellow and green annotations (such as text, markers, and measurement lines) from medical DICOM images, particularly ultrasound scans. For each processed file it produces a cleaned DICOM file that preserves all original metadata alongside a PNG preview image.
+A production-ready full-stack application to automatically detect and remove yellow and green annotations (such as text, markers, and measurement lines) from medical DICOM ultrasound scans. For each processed file, it produces a cleaned DICOM file alongside a PNG preview image. 
 
-## Project Structure
+> **⚠ Medical Disclaimer**: This tool is not a certified medical device and is intended for research, archival, and second-opinion review only. Results must be validated by a clinician.
+
+![DICOM Cleaner Interface](assets/app.png)
+
+## Architecture
+
+This application has been refactored into a modern decoupled architecture:
+1. **Frontend (Vite + Vanilla JavaScript + Custom CSS)**: A responsive, clinical-grade interface featuring dual WebGL/Canvas renderers, synchronous image sliders, mask overlays, measurement tools, and accessible controls.
+2. **Backend (FastAPI)**: A high-performance REST API handling DICOM parsing, HSV masking, morphological refinement, and OpenCV TELEA inpainting.
+3. **Orchestration (Docker)**: Multi-container deployment system for seamless execution across environments.
 
 ```
 dicom-processor/
-├── app.py               # CLI entry point – run this file
-├── requirements.txt     # Python dependencies
-├── assets/              # Sample / input DICOM files
-├── results/             # Default output directory
-├── docs/
-│   └── ALGORITHM.md     # Glossary and algorithm description
-└── src/
-   ├── constants.py     # HSV colour ranges, morphological & inpainting params
-   ├── io.py            # DICOM / image reading and writing helpers
-   └── processor.py     # Core image-processing pipeline
+├── docker-compose.yml      # Container orchestration
+├── frontend/               # Vanilla JS + Vite UI
+│   ├── components/         # HTML components
+│   ├── js/                 # Controllers and utilities
+│   │   ├── ui-controller.js
+│   │   ├── renderer-controller.js
+│   │   ├── measurement-tools.js
+│   │   └── ...
+│   ├── css/                # Custom styling
+│   ├── Dockerfile          # Nginx multi-stage build
+│   └── package.json        
+└── backend/                # FastAPI service
+    ├── main.py             # API Endpoints
+    ├── processor.py        # Core image-processing pipeline
+    ├── Dockerfile          
+    └── requirements.txt    
 ```
 
-### Module responsibilities
+## Quick Start (Docker)
 
-| Module | Responsibility |
-|---|---|
-| `app.py` | Gradio web UI, per-file orchestration, human-in-the-loop workflow |
-| `src/constants.py` | All hard-coded configuration values and colour thresholds |
-| `src/io.py` | Reading DICOM files, collecting input paths, saving DICOM / PNG output |
-| `src/processor.py` | HSV masking, morphological refinement, TELEA inpainting |
+The absolute easiest way to run the application is using Docker Compose.
 
-## Setup & Installation
-
-1. **Prerequisites**: Python 3.10 or newer.
-
+1. **Install Docker Desktop**.
 2. **Clone the repository**:
    ```bash
    git clone <your-repo-url>
    cd <your-repo-name>
    ```
-
-3. **Create a virtual environment** (recommended):
+3. **Build and Run the Containers**:
    ```bash
-   python -m venv .venv
-   # Windows
-   .venv\Scripts\activate
-   # macOS / Linux
-   source .venv/bin/activate
+   docker-compose up --build
    ```
+4. **Access the Application**:
+   Open **http://localhost** in your web browser. 
+   *(The API will be running simultaneously on http://localhost:8000).*
 
-4. **Install dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
+## Development (Local without Docker)
 
-## Running the Application
+If you prefer to run the services bare-metal for development:
 
+**1. Start the Backend API (Terminal 1)**
 ```bash
-python app.py
+cd backend
+python -m venv .venv
+# Activate: `.venv\Scripts\activate` (Windows) or `source .venv/bin/activate` (Mac/Linux)
+pip install -r requirements.txt
+python main.py
 ```
 
-Then open **http://127.0.0.1:7860** in your browser.
+**2. Start the Frontend UI (Terminal 2)**
+```bash
+cd frontend
+npm install
+npm run dev
+```
+Then navigate to the Vite local URL (e.g., `http://localhost:5173`).
 
-Note:
-- Section divider comments and visual separators were removed from the source
-   code to improve readability.
-- Project docstrings were standardised to use the `Args:` / `Returns:` style.
+## Usage Guide
 
-### Single File workflow (human-in-the-loop)
-
-1. **Upload** a `.dcm` file in the *Single File* tab.
-2. Click **👁️ Preview Mask** — the annotation mask is shown instantly (no inpainting). Check whether yellow/green regions are fully captured.
-3. If needed, expand **⚙️ Threshold Settings** and adjust the hue sliders, then preview again.
-4. Click **✨ Clean Image** — the full pipeline runs and the before/after comparison appears.
-5. Download the cleaned **DICOM** and/or **PNG** files.
-
-### Batch processing
-
-1. Switch to the *Batch* tab.
-2. Upload multiple `.dcm` files.
-3. Click **⚡ Process All** — each file is processed with default thresholds.
-4. Review the results table (filename / status / annotation pixel count).
-5. Download individual cleaned files from the list that appears.
-
-> **Tip:** Use the *Single File* tab to verify the default thresholds work for your dataset before running a large batch.
+1. **Upload** a `.dcm` file using the file upload panel.
+2. Adjust **Detection Sensitivity** and **Reconstruction Quality** sliders if needed for optimal mask detection.
+3. Click **🔍 Preview** to generate an overlay mask highlighting yellow/green annotation regions identified for removal.
+4. Drag the **Image Comparison slider** to verify the detected mask against the original image.
+5. Click **✨ Remove & Save** to perform inpainting and download the cleaned DICOM file.
+6. Use **Measurement Tools** (Distance, Area, Angle) to analyze regions before export.
+7. View **Metadata** in the drawer for complete DICOM information.
