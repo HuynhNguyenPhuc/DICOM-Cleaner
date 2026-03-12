@@ -39,7 +39,7 @@ from __future__ import annotations
 import cv2
 import numpy as np
 
-from src.constants import (
+from constants import (
     CLOSING_ITERATIONS,
     CLOSING_KERNEL_SIZE,
     DILATION_ITERATIONS,

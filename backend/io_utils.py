@@ -24,7 +24,7 @@ import pydicom
 from pydicom.dataset import FileDataset
 from pydicom.uid import ExplicitVRLittleEndian
 
-from src.constants import PHOTOMETRIC_INTERPRETATION
+from constants import PHOTOMETRIC_INTERPRETATION
 
 
 def read_dicom(file_path: str) -> tuple[FileDataset, np.ndarray]:
